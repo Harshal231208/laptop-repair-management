@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "backend.js",
   "scripts": {
-    "start": "concurrently \"node backend/backend.js\" \"http-server frontend -p 8080\"",
+    "start": "node backend.js",
     "dev": "nodemon backend.js"
   },
   "dependencies": {

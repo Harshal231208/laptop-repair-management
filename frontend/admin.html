@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Dashboard — RepairBench</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header class="site-header"><div class="wrap"><a href="index.html" class="brand"><svg class="brand-mark" viewBox="0 0 32 32" fill="none"><path d="M22 6l4 4-5.5 5.5a5 5 0 01-6.36 6.36L4 32l-4-4 10.14-10.14A5 5 0 0116.5 11.5L22 6z" stroke-width="1.6" stroke-linejoin="round"/></svg>RepairBench</a><nav class="main-nav" id="mainNav"><a href="index.html">Home</a><a href="submit.html">Submit Ticket</a><a href="track.html">Track Repair</a><a href="jobs.html">All Jobs</a><a href="admin.html" class="active">Admin</a></nav><button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button></div></header>
+<section class="page-head"><div class="wrap"><div class="hero-eyebrow">// management dashboard</div><h1>Repair operations</h1><p>Monitor tickets, assign technicians, update costs and follow every repair through completion.</p><div class="admin-topbar"><button id="logoutBtn" class="btn-logout">Log out</button></div></div></section>
+<main class="wrap admin-page">
+  <section id="dashboardStats" class="stats-grid"><div class="stat-card skeleton-stat"></div><div class="stat-card skeleton-stat"></div><div class="stat-card skeleton-stat"></div><div class="stat-card skeleton-stat"></div><div class="stat-card skeleton-stat"></div></section>
+  <section class="dashboard-grid">
+    <div class="panel"><div class="panel-heading"><div><div class="eyebrow">overview</div><h2>Repair categories</h2></div></div><div id="categoryChart" class="bar-chart"></div></div>
+    <div class="panel"><div class="panel-heading"><div><div class="eyebrow">workforce</div><h2>Technicians</h2></div></div><div id="technicianList" class="technician-list"></div></div>
+  </section>
+  <section class="panel jobs-panel">
+    <div class="panel-heading"><div><div class="eyebrow">live queue</div><h2>Manage repair jobs</h2></div><button id="refreshBtn" class="btn btn-outline">Refresh</button></div>
+    <div class="jobs-toolbar"><input type="text" id="jobSearch" placeholder="Search customer, device, ticket, serial…"><select id="statusFilter"><option value="all">All statuses</option><option>Received</option><option>Diagnosing</option><option>Waiting for Approval</option><option>Repairing</option><option>Ready for Pickup</option><option>Completed</option><option>Cancelled</option></select><select id="priorityFilter"><option value="all">All priorities</option><option>Urgent</option><option>High</option><option>Normal</option><option>Low</option></select></div>
+    <div id="jobsList" class="admin-job-list"></div>
+  </section>
+
+  <div id="jobDetailsModal" class="modal-backdrop" hidden>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="jobDetailsTitle">
+      <button id="modalClose" class="modal-close" aria-label="Close">&times;</button>
+      <div id="jobDetailsBody"></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="wrap"><p>RepairBench — laptop repair management</p><p>Operational dashboard</p></div></footer>
+<script src="js/main.js"></script><script src="js/toast.js"></script><script src="js/admin-auth.js"></script><script>AdminAuth.requireLogin();</script><script src="js/admin.js"></script><script>document.getElementById('logoutBtn').addEventListener('click', () => AdminAuth.logout());</script>
+</body></html>

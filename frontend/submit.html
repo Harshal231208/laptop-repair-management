@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit Ticket — RepairBench</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6l4 4-5.5 5.5a5 5 0 01-6.36 6.36L4 32l-4-4 10.14-10.14A5 5 0 0116.5 11.5L22 6z" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      RepairBench
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="submit.html" class="active">Submit Ticket</a>
+      <a href="track.html">Track Repair</a>
+      <a href="jobs.html">All Jobs</a>
+      <a href="admin-login.html">Admin</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="hero-eyebrow">// new ticket</div>
+    <h1>Submit a repair ticket</h1>
+    <p>Fill in your details and the device issue below. You'll get a ticket number to track its status.</p>
+  </div>
+</section>
+
+<section class="content-grid wrap">
+  <div class="panel">
+    <form id="repairForm">
+      <div class="field-row">
+        <div class="field">
+          <label for="customerName">Customer name</label>
+          <input type="text" id="customerName" required>
+        </div>
+        <div class="field">
+          <label for="customerPhone">Phone</label>
+          <input type="text" id="customerPhone" required>
+        </div>
+      </div>
+      <div class="field">
+          <label for="customerAddress">Address</label>
+          <textarea id="customerAddress" rows="3" placeholder="Street, City, State, Zip"></textarea>
+        </div>
+
+      <div class="field">
+        <label for="customerEmail">Email</label>
+        <input type="email" id="customerEmail" required>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="deviceModel">Device model</label>
+          <input type="text" id="deviceModel" placeholder="e.g., Dell Inspiron 15" required>
+        </div>
+        <div class="field">
+          <label for="serialNumber">Serial number <span class="muted">(optional)</span></label>
+          <input type="text" id="serialNumber" placeholder="e.g., ABC123XYZ">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="category">Problem category</label>
+          <select id="category">
+            <option>Hardware</option><option>Software</option><option>Display</option><option>Battery</option>
+            <option>Charging</option><option>Storage</option><option>Memory</option><option>Keyboard</option>
+            <option>Network</option><option>Operating System</option><option selected>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="priority">Priority</label>
+          <select id="priority"><option>Low</option><option selected>Normal</option><option>High</option><option>Urgent</option></select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="estimatedCost">Estimated cost <span class="muted">(optional)</span></label>
+          <input type="number" id="estimatedCost" min="0" step="0.01" placeholder="₹ 0.00">
+        </div>
+        <div class="field">
+          <label for="estimatedCompletion">Expected completion <span class="muted">(optional)</span></label>
+          <input type="date" id="estimatedCompletion">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="issueDescription">Issue description</label>
+        <textarea id="issueDescription" rows="5" maxlength="1000" placeholder="What's happening with the device?" required></textarea>
+        <small class="field-hint">Include useful symptoms such as error messages, unusual sounds, or when the issue started.</small>
+      </div>
+
+      <button type="submit" class="btn btn-copper btn-block">Submit ticket</button>
+      <div id="loadingSpinner" class="spinner" style="display:none;"></div>
+      <div id="message" class="message"></div>
+    </form>
+  </div>
+
+  <aside class="panel sidebar-card">
+    <h3>What happens next</h3>
+    <ul class="sidebar-steps">
+      <li><span class="n">01</span><span>You'll get a ticket number the moment you submit — save it to check status later.</span></li>
+      <li><span class="n">02</span><span>A technician reviews the issue and moves your ticket to "in progress."</span></li>
+      <li><span class="n">03</span><span>Once repairs are done, your ticket status changes to "completed" and it's ready for pickup.</span></li>
+    </ul>
+  </aside>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>RepairBench — laptop repair ticketing</p>
+    <p>Laptop Repair Management System</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/toast.js"></script>
+<script src="js/submit.js"></script>
+</body>
+</html>

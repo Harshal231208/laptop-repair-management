@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — RepairBench</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6l4 4-5.5 5.5a5 5 0 01-6.36 6.36L4 32l-4-4 10.14-10.14A5 5 0 0116.5 11.5L22 6z" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      RepairBench
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="submit.html">Submit Ticket</a>
+      <a href="track.html">Track Repair</a>
+      <a href="admin-login.html" class="active">Admin Login</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="hero-eyebrow">// staff access</div>
+    <h1>Admin login</h1>
+    <p>Sign in to manage repair jobs, assign technicians, and update ticket status.</p>
+  </div>
+</section>
+
+<section class="wrap login-wrap">
+  <div class="panel login-panel">
+    <form id="loginForm">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+      </div>
+      <p id="loginError" class="login-error" hidden></p>
+      <button type="submit" class="btn btn-copper btn-block" id="loginBtn">Sign in</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer"><div class="wrap"><p>RepairBench — laptop repair management</p><p>Operational dashboard</p></div></footer>
+
+<script src="js/main.js"></script>
+<script src="js/toast.js"></script>
+<script src="js/admin-auth.js"></script>
+<script src="js/admin-login.js"></script>
+</body></html>

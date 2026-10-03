@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Jobs — RepairBench</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6l4 4-5.5 5.5a5 5 0 01-6.36 6.36L4 32l-4-4 10.14-10.14A5 5 0 0116.5 11.5L22 6z" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      RepairBench
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="submit.html">Submit Ticket</a>
+      <a href="track.html">Track Repair</a>
+      <a href="jobs.html" class="active">All Jobs</a>
+      <a href="admin-login.html">Admin</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="hero-eyebrow">// active tickets</div>
+    <h1>All repair jobs</h1>
+    <p>Every open ticket in the system, newest first.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding: 32px 0 96px;">
+  <div class="jobs-toolbar">
+    <input type="text" id="jobSearch" placeholder="Search by customer, device, or ticket #">
+    <select id="statusFilter">
+      <option value="all">All statuses</option>
+      <option>Received</option><option>Diagnosing</option><option>Waiting for Approval</option>
+      <option>Repairing</option><option>Ready for Pickup</option><option>Completed</option><option>Cancelled</option>
+    </select>
+    <button id="refreshBtn" class="btn btn-outline">Refresh</button>
+  </div>
+
+  <div class="job-list-head">
+    <span>Ticket</span><span>Customer / device</span><span>Issue</span><span>Reported</span><span>Status</span>
+  </div>
+  <div id="jobsList" class="job-list"></div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>RepairBench — laptop repair ticketing</p>
+    <p>Laptop Repair Management System</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/toast.js"></script>
+<script src="js/jobs.js"></script>
+</body>
+</html>

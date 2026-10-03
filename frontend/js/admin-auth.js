@@ -1,5 +1,4 @@
-// Server-backed admin authentication.
-// The backend issues a short-lived session token after verifying the credentials.
+
 
 const AdminAuth = {
   getToken() {
@@ -38,7 +37,6 @@ const AdminAuth = {
         });
       }
     } catch (_) {
-      // Clear the local session even if the server is unavailable.
     }
 
     sessionStorage.removeItem('rb_admin_token');

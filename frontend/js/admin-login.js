@@ -1,4 +1,3 @@
-// If already logged in, skip the login screen entirely.
 if (AdminAuth.isLoggedIn()) {
   window.location.href = 'admin.html';
 }

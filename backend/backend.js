@@ -4,7 +4,7 @@ const mysql = require('mysql2/promise');
 const fs = require('fs');
 const crypto = require('crypto');
 
-// Lightweight .env loader so the project has no extra runtime dependency.
+
 const envPath = __dirname + '/.env';
 if (fs.existsSync(envPath)) {
     fs.readFileSync(envPath, 'utf8').split(/\r?\n/).forEach(line => {

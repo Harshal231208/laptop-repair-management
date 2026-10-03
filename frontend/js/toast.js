@@ -1,7 +1,4 @@
-// Shared toast notification system.
-// Include this script on any page BEFORE the page's own script, then call:
-//   showToast('Ticket submitted.', 'success');
-//   showToast('Something went wrong.', 'error');
+
 
 (function () {
   function ensureContainer() {

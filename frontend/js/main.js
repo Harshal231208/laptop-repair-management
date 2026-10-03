@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://laptop-repair-management-production.up.railway.app/api';
 
 window.escapeHtml = function (value) {
   return String(value ?? '').replace(/[&<>'"]/g, char => ({

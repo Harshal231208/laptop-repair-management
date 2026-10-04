@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repairJob>
+  <jobId>1</jobId>
+  <status>Received</status>
+  <priority>Urgent</priority>
+  <category>Display</category>
+  <dateReported>2026-09-20 12:13:29</dateReported>
+  <estimatedCompletion></estimatedCompletion>
+  <estimatedCost></estimatedCost>
+  <actualCost></actualCost>
+  <customer>
+    <name>Harshal Borate</name>
+    <email>harshalborate42@gmail.com</email>
+    <phone>8530506023</phone>
+  </customer>
+  <device>
+    <model>Dell Inspiron 15</model>
+    <serialNumber></serialNumber>
+  </device>
+  <repair>
+    <issueDescription>SCREEN FLICKERING</issueDescription>
+    <notes></notes>
+    <technician></technician>
+  </repair>
+  <history>
+    <event>
+      <oldStatus>Pending</oldStatus>
+      <newStatus>Received</newStatus>
+      <remarks>Updated from admin dashboard</remarks>
+      <changedBy>Admin</changedBy>
+      <changedAt>2026-09-27 16:48:00</changedAt>
+    </event>
+  </history>
+</repairJob>

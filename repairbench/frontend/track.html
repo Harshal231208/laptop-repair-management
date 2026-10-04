@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Repair — RepairBench</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6l4 4-5.5 5.5a5 5 0 01-6.36 6.36L4 32l-4-4 10.14-10.14A5 5 0 0116.5 11.5L22 6z" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      RepairBench
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="submit.html">Submit Ticket</a>
+      <a href="track.html" class="active">Track Repair</a>
+      <a href="jobs.html">All Jobs</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin-login.html">Admin</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="hero-eyebrow">// ticket lookup</div>
+    <h1>Track a repair</h1>
+    <p>Enter your ticket number or the email you used when submitting.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding: 32px 0 96px;">
+  <div class="panel" style="max-width: 640px; margin: 0 auto;">
+    <div class="search-row">
+      <input type="text" id="trackInput" minlength="1" maxlength="254" placeholder="Ticket number or email">
+      <button id="trackBtn" class="btn btn-copper">Track</button>
+    </div>
+    <div id="loadingSpinner" class="spinner" style="display:none;"></div>
+
+    <div id="trackResult"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>RepairBench — laptop repair ticketing</p>
+    <p>Laptop Repair Management System</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/customer-auth.js"></script>
+<script src="js/toast.js"></script>
+<script src="js/track.js"></script>
+</body>
+</html>

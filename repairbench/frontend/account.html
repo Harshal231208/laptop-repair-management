@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Account — RepairBench</title><link rel="stylesheet" href="css/style.css"></head>
+<body><header class="site-header"><div class="wrap"><a href="index.html" class="brand">RepairBench</a><nav class="main-nav" id="mainNav"><a href="index.html">Home</a><a href="submit.html">Submit Ticket</a><a href="track.html">Track Repair</a><a href="jobs.html">All Jobs</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="admin-login.html">Admin</a></nav><button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button></div></header>
+<section class="page-head"><div class="wrap"><div class="hero-eyebrow">// customer portal</div><h1 id="welcome">My account</h1><p>View your profile and every repair ticket linked to your account.</p></div></section>
+<section class="block"><div class="wrap"><div class="account-actions"><a href="submit.html" class="btn btn-copper">Submit a new ticket</a><button id="logoutBtn" class="btn btn-outline">Sign out</button></div><div class="dashboard-grid account-grid"><div class="panel"><div class="section-head"><h2>Profile</h2></div><div id="profile"></div></div><div class="panel"><div class="section-head"><h2>My repairs</h2><p>Your latest tickets appear here automatically.</p></div><div id="repairs"><p>Loading repairs…</p></div></div></div></div></section>
+<footer class="site-footer"><div class="wrap"><p>RepairBench — laptop repair management</p><p>Customer portal</p></div></footer>
+<script src="js/main.js"></script><script src="js/toast.js"></script><script src="js/customer-auth.js"></script><script>
+(async function(){
+ if(!customerAuth.isLoggedIn()){location.href='login.html';return;}
+ const profile=document.getElementById('profile'), repairs=document.getElementById('repairs');
+ try{
+  const [meRes,jobsRes]=await Promise.all([customerAuth.authFetch(`${API_URL}/customer/me`),customerAuth.authFetch(`${API_URL}/customer/repairs`)]);
+  if(meRes.status===401||jobsRes.status===401){customerAuth.clear();location.href='login.html';return;}
+  const me=await meRes.json(), jobs=await jobsRes.json();
+  if(!meRes.ok)throw new Error(me.error||'Unable to load account.');
+  document.getElementById('welcome').textContent=`Welcome, ${me.name}`;
+  profile.innerHTML=`<div class="profile-list"><div><span>Name</span><strong>${escapeHtml(me.name)}</strong></div><div><span>Email</span><strong>${escapeHtml(me.email)}</strong></div><div><span>Phone</span><strong>${escapeHtml(me.phone||'Not added')}</strong></div></div>`;
+  if(!Array.isArray(jobs)||!jobs.length){repairs.innerHTML='<div class="empty-state"><p>No repair tickets are linked to your account yet.</p><a class="btn btn-copper" href="submit.html">Submit your first ticket</a></div>';return;}
+  repairs.innerHTML=jobs.map(j=>`<a class="account-job" href="track.html?job=${encodeURIComponent(j.job_id)}"><div><strong>#${j.job_id} · ${escapeHtml(j.model)}</strong><span>${escapeHtml(j.issue_description)}</span></div><div class="account-job-meta"><span class="status-badge status-${j.status.toLowerCase().replace(/[^a-z0-9]+/g,'_')}">${escapeHtml(j.status)}</span><small>${formatDate(j.date_reported)}</small></div></a>`).join('');
+ }catch(e){repairs.innerHTML=`<p class="login-error">${escapeHtml(e.message)}</p>`;}
+})();
+document.getElementById('logoutBtn').addEventListener('click',()=>customerAuth.logout());
+</script></body></html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repairJob>
+  <jobId>4</jobId>
+  <status>Repairing</status>
+  <priority>Normal</priority>
+  <category>Display</category>
+  <dateReported>2026-09-27 17:43:47</dateReported>
+  <estimatedCompletion></estimatedCompletion>
+  <estimatedCost>10000.00</estimatedCost>
+  <actualCost>15000.00</actualCost>
+  <customer>
+    <name>Harshal Borate</name>
+    <email>harshalborate42@gmail.com</email>
+    <phone>8530506023</phone>
+  </customer>
+  <device>
+    <model>Dell Inspiron 15</model>
+    <serialNumber></serialNumber>
+  </device>
+  <repair>
+    <issueDescription>na</issueDescription>
+    <notes></notes>
+    <technician>Vikram Sharma</technician>
+  </repair>
+  <history>
+    <event>
+      <oldStatus></oldStatus>
+      <newStatus>Received</newStatus>
+      <remarks>Ticket created</remarks>
+      <changedBy>Customer</changedBy>
+      <changedAt>2026-09-27 17:43:47</changedAt>
+    </event>
+    <event>
+      <oldStatus>Received</oldStatus>
+      <newStatus>Received</newStatus>
+      <remarks>Updated from admin dashboard</remarks>
+      <changedBy>Admin</changedBy>
+      <changedAt>2026-09-27 17:44:09</changedAt>
+    </event>
+    <event>
+      <oldStatus>Received</oldStatus>
+      <newStatus>Repairing</newStatus>
+      <remarks>Updated from admin dashboard</remarks>
+      <changedBy>Admin</changedBy>
+      <changedAt>2026-09-27 17:44:20</changedAt>
+    </event>
+    <event>
+      <oldStatus>Repairing</oldStatus>
+      <newStatus>Repairing</newStatus>
+      <remarks>Updated from admin dashboard</remarks>
+      <changedBy>Admin</changedBy>
+      <changedAt>2026-09-27 17:44:34</changedAt>
+    </event>
+    <event>
+      <oldStatus>Repairing</oldStatus>
+      <newStatus>Repairing</newStatus>
+      <remarks>Updated from admin dashboard</remarks>
+      <changedBy>Admin</changedBy>
+      <changedAt>2026-09-27 17:45:05</changedAt>
+    </event>
+  </history>
+</repairJob>

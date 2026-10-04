@@ -22,7 +22,8 @@ const adminSessions = new Map();
 const FRONTEND_ORIGINS = [
     'http://localhost:5500',
     'http://127.0.0.1:5502',
-    'https://super-cheesecake-37f16d.netlify.app'
+    'https://super-cheesecake-37f16d.netlify.app',
+    'https://laptop-repair-management.netlify.app'
 ];
 
 const pool = mysql.createPool({

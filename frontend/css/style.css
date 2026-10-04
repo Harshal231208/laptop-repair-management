@@ -1181,3 +1181,23 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 768px) {
   .content-grid { grid-template-columns: 1fr; }
 }
+.auth-switch { margin: 18px 0 0; text-align: center; color: var(--ink-soft); font-size: .9rem; }
+.auth-switch a { color: var(--copper-dark); font-weight: 600; }
+.field-help { display:block; margin-top:6px; color:var(--ink-soft); font-size:.78rem; }
+.account-actions { display:flex; justify-content:flex-end; gap:10px; margin-bottom:24px; }
+.account-grid { align-items:start; }
+.profile-list { display:grid; gap:0; }
+.profile-list > div { padding:14px 0; border-bottom:1px solid var(--line); }
+.profile-list > div:last-child { border-bottom:0; }
+.profile-list span { display:block; color:var(--ink-soft); font: .7rem var(--font-mono); text-transform:uppercase; margin-bottom:5px; }
+.profile-list strong { font-size:.95rem; }
+.account-job { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:16px 0; border-bottom:1px solid var(--line); color:inherit; text-decoration:none; }
+.account-job:last-child { border-bottom:0; }
+.account-job:hover strong { color:var(--copper-dark); }
+.account-job > div:first-child { min-width:0; }
+.account-job strong, .account-job span { display:block; }
+.account-job span:not(.status-badge) { color:var(--ink-soft); font-size:.86rem; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.account-job-meta { text-align:right; flex:0 0 auto; }
+.account-job-meta small { display:block; margin-top:6px; color:var(--ink-soft); }
+.empty-state { padding:20px 0; color:var(--ink-soft); }
+@media(max-width:600px){.account-actions{justify-content:stretch}.account-actions .btn{flex:1}.account-job{align-items:flex-start;flex-direction:column}.account-job-meta{text-align:left}.account-job-meta .status-badge{display:inline-flex}}

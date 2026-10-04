@@ -74,3 +74,11 @@ WHERE NOT EXISTS (SELECT 1 FROM Technicians WHERE name = 'Neha Gupta');
 INSERT INTO Technicians (name, specialization, phone)
 SELECT 'Rohit Verma', 'Network Setup', '9333333333'
 WHERE NOT EXISTS (SELECT 1 FROM Technicians WHERE name = 'Rohit Verma');
+
+CREATE TABLE IF NOT EXISTS CustomerAuth (
+    customer_id INT PRIMARY KEY,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE
+);

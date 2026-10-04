@@ -18,6 +18,7 @@ const PORT = Number(process.env.PORT || 5000);
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 const adminSessions = new Map();
+const customerSessions = new Map();
 
 const FRONTEND_ORIGINS = [
     'http://localhost:5500',
@@ -63,6 +64,40 @@ function normaliseNumber(value) {
     return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
+
+function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
+    const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return `${salt}:${hash}`;
+}
+
+function verifyPassword(password, storedHash) {
+    try {
+        const [salt, hash] = String(storedHash || '').split(':');
+        if (!salt || !hash) return false;
+        const derived = crypto.scryptSync(password, salt, 64).toString('hex');
+        return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(derived, 'hex'));
+    } catch {
+        return false;
+    }
+}
+
+function customerAuth(req, res, next) {
+    const header = req.headers.authorization || '';
+    const token = header.startsWith('Bearer ') ? header.slice(7) : '';
+    const session = token ? customerSessions.get(token) : null;
+
+    if (!session) {
+        return res.status(401).json({ error: 'Customer authentication required.' });
+    }
+
+    if (Date.now() - session.createdAt > 24 * 60 * 60 * 1000) {
+        customerSessions.delete(token);
+        return res.status(401).json({ error: 'Your session has expired. Please sign in again.' });
+    }
+
+    req.customer = { customerId: session.customerId, email: session.email, token };
+    next();
+}
 
 function adminAuth(req, res, next) {
     const header = req.headers.authorization || '';
@@ -151,6 +186,16 @@ async function ensureSchema() {
         }
 
         await connection.query(`
+            CREATE TABLE IF NOT EXISTS CustomerAuth (
+                customer_id INT PRIMARY KEY,
+                password_hash VARCHAR(255) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_login TIMESTAMP NULL,
+                FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE
+            )
+        `);
+
+        await connection.query(`
             CREATE TABLE IF NOT EXISTS RepairStatusHistory (
                 history_id INT AUTO_INCREMENT PRIMARY KEY,
                 job_id INT NOT NULL,
@@ -191,6 +236,117 @@ app.post('/api/admin/login', (req, res) => {
         token,
         username
     });
+});
+
+app.post('/api/customer/register', async (req, res) => {
+    const { name, email, phone, password } = req.body || {};
+    const cleanName = String(name || '').trim();
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    const cleanPhone = String(phone || '').trim();
+
+    if (!cleanName || !cleanEmail || !password) {
+        return res.status(400).json({ error: 'Name, email and password are required.' });
+    }
+    if (!/^\S+@\S+\.\S+$/.test(cleanEmail)) {
+        return res.status(400).json({ error: 'Please enter a valid email address.' });
+    }
+    if (String(password).length < 8) {
+        return res.status(400).json({ error: 'Password must be at least 8 characters.' });
+    }
+
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+        const [customers] = await connection.query('SELECT customer_id FROM Customers WHERE LOWER(email) = LOWER(?) LIMIT 1', [cleanEmail]);
+        let customerId;
+
+        if (customers.length) {
+            customerId = customers[0].customer_id;
+            const [accounts] = await connection.query('SELECT customer_id FROM CustomerAuth WHERE customer_id = ?', [customerId]);
+            if (accounts.length) {
+                await connection.rollback();
+                return res.status(409).json({ error: 'An account already exists for this email.' });
+            }
+            await connection.query('UPDATE Customers SET name = ?, phone = ? WHERE customer_id = ?', [cleanName, cleanPhone || null, customerId]);
+        } else {
+            const [result] = await connection.query(
+                'INSERT INTO Customers (name, email, phone) VALUES (?, ?, ?)',
+                [cleanName, cleanEmail, cleanPhone || null]
+            );
+            customerId = result.insertId;
+        }
+
+        await connection.query('INSERT INTO CustomerAuth (customer_id, password_hash) VALUES (?, ?)', [customerId, hashPassword(String(password))]);
+        await connection.commit();
+        res.status(201).json({ message: 'Account created successfully. You can now sign in.' });
+    } catch (error) {
+        await connection.rollback();
+        res.status(500).json({ error: error.message });
+    } finally {
+        connection.release();
+    }
+});
+
+app.post('/api/customer/login', async (req, res) => {
+    const cleanEmail = String(req.body?.email || '').trim().toLowerCase();
+    const password = String(req.body?.password || '');
+
+    if (!cleanEmail || !password) return res.status(400).json({ error: 'Email and password are required.' });
+
+    try {
+        const [rows] = await pool.query(`
+            SELECT c.customer_id, c.name, c.email, c.phone, a.password_hash
+            FROM Customers c
+            JOIN CustomerAuth a ON a.customer_id = c.customer_id
+            WHERE LOWER(c.email) = LOWER(?) LIMIT 1
+        `, [cleanEmail]);
+
+        if (!rows.length || !verifyPassword(password, rows[0].password_hash)) {
+            return res.status(401).json({ error: 'Incorrect email or password.' });
+        }
+
+        const token = crypto.randomBytes(32).toString('hex');
+        customerSessions.set(token, { customerId: rows[0].customer_id, email: rows[0].email, createdAt: Date.now() });
+        await pool.query('UPDATE CustomerAuth SET last_login = CURRENT_TIMESTAMP WHERE customer_id = ?', [rows[0].customer_id]);
+
+        res.json({ message: 'Login successful.', token, customer: { customerId: rows[0].customer_id, name: rows[0].name, email: rows[0].email, phone: rows[0].phone } });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/customer/logout', customerAuth, (req, res) => {
+    customerSessions.delete(req.customer.token);
+    res.json({ message: 'Logged out successfully.' });
+});
+
+app.get('/api/customer/me', customerAuth, async (req, res) => {
+    try {
+        const [[customer]] = await pool.query('SELECT customer_id, name, email, phone, address, created_at FROM Customers WHERE customer_id = ?', [req.customer.customerId]);
+        if (!customer) return res.status(404).json({ error: 'Customer account not found.' });
+        res.json(customer);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/customer/repairs', customerAuth, async (req, res) => {
+    try {
+        const [jobs] = await pool.query(`
+            SELECT rj.job_id, rj.status, rj.category, rj.priority, rj.date_reported, rj.date_completed,
+                   rj.estimated_completion, rj.estimated_cost, rj.actual_cost, rj.issue_description,
+                   d.model, d.serial_number, t.name AS technician_name
+            FROM RepairJobs rj
+            JOIN Devices d ON rj.device_id = d.device_id
+            LEFT JOIN JobAssignments ja ON rj.job_id = ja.job_id
+            LEFT JOIN Technicians t ON ja.tech_id = t.tech_id
+            WHERE d.customer_id = ?
+            ORDER BY rj.date_reported DESC
+        `, [req.customer.customerId]);
+        res.json(jobs);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.post('/api/admin/logout', adminAuth, (req, res) => {

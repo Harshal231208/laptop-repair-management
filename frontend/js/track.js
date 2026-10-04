@@ -1,4 +1,5 @@
 const trackInput = document.getElementById('trackInput');
+const initialJob = new URLSearchParams(window.location.search).get('job');
 const trackBtn = document.getElementById('trackBtn');
 const trackResult = document.getElementById('trackResult');
 const loadingSpinner = document.getElementById('loadingSpinner');
@@ -49,3 +50,4 @@ async function track(){
 }
 async function loadTicket(id){loadingSpinner.style.display='block';try{const r=await fetch(`${API_URL}/repair-jobs/${id}`);const d=await r.json();if(!r.ok)throw new Error(d.error);renderTicket(d);}catch(e){showToast(e.message,'error');}finally{loadingSpinner.style.display='none';}}
 trackBtn.addEventListener('click',track); trackInput.addEventListener('keydown',e=>{if(e.key==='Enter')track();});
+if (initialJob) { trackInput.value = initialJob; track(); }

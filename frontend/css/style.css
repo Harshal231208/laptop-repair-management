@@ -73,7 +73,8 @@ p { max-width: 62ch; color: var(--ink-soft); }
   color: #fff;
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 1000;
+  overflow: visible;
 }
 
 .site-header .wrap {
@@ -780,19 +781,65 @@ section.block.alt { background: var(--panel); border-top: 1px solid var(--line);
 }
 
 @media (max-width: 720px) {
-  .nav-toggle { display: block; }
+  /* Mobile navigation: keep the menu above all page/dashboard content. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    overflow: visible;
+  }
+
+  .site-header .wrap {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .nav-toggle {
+    display: block;
+    position: relative;
+    z-index: 1003;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    line-height: 1;
+  }
+
   .main-nav {
     position: absolute;
     top: 72px;
     left: 0;
     right: 0;
+    z-index: 1002;
+
     background: var(--ink);
+    color: #fff;
     flex-direction: column;
+    height: auto;
     display: none;
+
+    /* Prevent dashboard/hero content from showing through the menu. */
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
   }
-  .main-nav.open { display: flex; }
-  .main-nav a { height: 52px; padding: 0 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .site-header { position: sticky; }
+
+  .main-nav.open {
+    display: flex;
+  }
+
+  .main-nav a {
+    width: 100%;
+    height: 52px;
+    min-height: 52px;
+    padding: 0 24px;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .main-nav a:last-child {
+    border-bottom: 0;
+  }
+
   .wrap { padding: 0 20px; }
   .cta-banner { flex-direction: column; align-items: flex-start; }
 }

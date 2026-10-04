@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — RepairBench</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6l4 4-5.5 5.5a5 5 0 01-6.36 6.36L4 32l-4-4 10.14-10.14A5 5 0 0116.5 11.5L22 6z" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      RepairBench
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="submit.html">Submit Ticket</a>
+      <a href="track.html">Track Repair</a>
+      <a href="jobs.html">All Jobs</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+      <a href="admin-login.html">Admin</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="hero-eyebrow">// get in touch</div>
+    <h1>Contact us</h1>
+    <p>Questions about an existing ticket, or something a web form can't cover — reach us directly.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding: 40px 32px 80px;">
+  <div class="content-grid">
+    <div class="panel">
+      <h2 style="margin-bottom: 20px;">Visit or call</h2>
+      <div class="field">
+        <label>Address</label>
+        <p>12 Station Road, Pune, Maharashtra 411001</p>
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <p>+91 98765 43210</p>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <p>support@repairbench.example</p>
+      </div>
+      <div class="field">
+        <label>Hours</label>
+        <p>Mon – Sat, 10:00 AM – 7:00 PM</p>
+      </div>
+      <p style="margin-top: 20px; color: var(--ink-soft); font-size: 0.9rem;">
+        Already have a ticket? It's faster to check status on the
+        <a href="track.html" style="color: var(--copper);">Track Repair</a> page than to call in.
+      </p>
+    </div>
+
+    <div class="panel">
+      <h2 style="margin-bottom: 20px;">Send a message</h2>
+      <form id="contactForm">
+        <div class="field">
+          <label for="contactName">Name</label>
+          <input type="text" id="contactName" required>
+        </div>
+        <div class="field">
+          <label for="contactEmail">Email</label>
+          <input type="email" id="contactEmail" required>
+        </div>
+        <div class="field">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-copper btn-block">Send message</button>
+        <p id="contactNote" style="margin-top: 12px; font-size: 0.85rem; color: var(--ink-soft);">
+          This form is for general inquiries only and is not connected to the ticketing system.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>RepairBench — laptop repair ticketing</p>
+    <p>Laptop Repair Management System</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/toast.js"></script>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    showToast("Thanks — we'll get back to you soon.", 'success');
+    e.target.reset();
+  });
+</script>
+</body>
+</html>

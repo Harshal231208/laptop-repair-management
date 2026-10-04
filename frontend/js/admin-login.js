@@ -8,6 +8,7 @@ const loginBtn = document.getElementById('loginBtn');
 
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (!window.validateForm(loginForm)) return;
 
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;

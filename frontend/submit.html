@@ -43,31 +43,31 @@
       <div class="field-row">
         <div class="field">
           <label for="customerName">Customer name</label>
-          <input type="text" id="customerName" required>
+          <input type="text" id="customerName" required minlength="2" maxlength="100" pattern="[A-Za-zÀ-ÿ .'-]+">
         </div>
         <div class="field">
           <label for="customerPhone">Phone</label>
-          <input type="text" id="customerPhone" required>
+          <input type="text" id="customerPhone" required minlength="10" maxlength="20" pattern="[0-9+()\-\s]{10,20}">
         </div>
       </div>
       <div class="field">
           <label for="customerAddress">Address</label>
-          <textarea id="customerAddress" rows="3" placeholder="Street, City, State, Zip"></textarea>
+          <textarea id="customerAddress" rows="3" maxlength="300" placeholder="Street, City, State, Zip"></textarea>
         </div>
 
       <div class="field">
         <label for="customerEmail">Email</label>
-        <input type="email" id="customerEmail" required>
+        <input type="email" id="customerEmail" required maxlength="254">
       </div>
 
       <div class="field-row">
         <div class="field">
           <label for="deviceModel">Device model</label>
-          <input type="text" id="deviceModel" placeholder="e.g., Dell Inspiron 15" required>
+          <input type="text" id="deviceModel" minlength="2" maxlength="100" placeholder="e.g., Dell Inspiron 15" required>
         </div>
         <div class="field">
           <label for="serialNumber">Serial number <span class="muted">(optional)</span></label>
-          <input type="text" id="serialNumber" placeholder="e.g., ABC123XYZ">
+          <input type="text" id="serialNumber" maxlength="100" placeholder="e.g., ABC123XYZ">
         </div>
       </div>
 
@@ -89,7 +89,7 @@
       <div class="field-row">
         <div class="field">
           <label for="estimatedCost">Estimated cost <span class="muted">(optional)</span></label>
-          <input type="number" id="estimatedCost" min="0" step="0.01" placeholder="₹ 0.00">
+          <input type="number" id="estimatedCost" min="0" max="10000000" step="0.01" placeholder="₹ 0.00">
         </div>
         <div class="field">
           <label for="estimatedCompletion">Expected completion <span class="muted">(optional)</span></label>

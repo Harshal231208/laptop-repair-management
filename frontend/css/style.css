@@ -1201,3 +1201,10 @@ body.modal-open { overflow: hidden; }
 .account-job-meta small { display:block; margin-top:6px; color:var(--ink-soft); }
 .empty-state { padding:20px 0; color:var(--ink-soft); }
 @media(max-width:600px){.account-actions{justify-content:stretch}.account-actions .btn{flex:1}.account-job{align-items:flex-start;flex-direction:column}.account-job-meta{text-align:left}.account-job-meta .status-badge{display:inline-flex}}
+
+/* Frontend validation */
+.field input.invalid,
+.field textarea.invalid,
+.field select.invalid { border-color: #c0503a; box-shadow: 0 0 0 2px rgba(192,80,58,.08); }
+.field .validation-error { display:block; margin-top:6px; color:#a3402b; font-size:.78rem; }
+.field .validation-error[hidden] { display:none; }

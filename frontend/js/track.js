@@ -41,7 +41,7 @@ async function cancelTicket(jobId) {
 }
 function renderEmpty(message){trackResult.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><p>${escapeHtml(message)}</p></div>`;}
 async function track(){
-  const query=trackInput.value.trim(); if(!query){renderEmpty('Enter a ticket number or email to look up a repair.');return;}
+  const query=trackInput.value.trim(); if(!query || query.length > 254){renderEmpty('Enter a valid ticket number or email to look up a repair.');return;}
   loadingSpinner.style.display='block'; trackResult.innerHTML='';
   try { const r=await fetch(`${API_URL}/repair-jobs/lookup/${encodeURIComponent(query)}`); const data=await r.json(); if(!r.ok) throw new Error(data.error||'No ticket found.');
     if(data.length===1) renderTicket(data[0]); else trackResult.innerHTML=`<div class="lookup-list"><h3>${data.length} tickets found</h3>${data.map(j=>`<button class="lookup-ticket" data-id="${j.job_id}"><span>#${j.job_id} · ${escapeHtml(j.model)}</span><span class="status-badge status-${String(j.status).toLowerCase().replace(/\s+/g,'_')}">${escapeHtml(j.status)}</span></button>`).join('')}</div>`;

@@ -1,6 +1,8 @@
 const form = document.getElementById('repairForm');
 const loadingSpinner = document.getElementById('loadingSpinner');
 const messageDiv = document.getElementById('message');
+const completionInput = document.getElementById('estimatedCompletion');
+if (completionInput) completionInput.min = new Date().toISOString().split('T')[0];
 
 function showMessage(text, type) {
   messageDiv.textContent = text;
@@ -10,6 +12,10 @@ function showMessage(text, type) {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (!window.validateForm(form)) {
+    showMessage('Please correct the highlighted fields.', 'error');
+    return;
+  }
   const formData = {
     customerName: document.getElementById('customerName').value.trim(),
     customerEmail: document.getElementById('customerEmail').value.trim(),
@@ -23,8 +29,8 @@ form.addEventListener('submit', async (e) => {
     issueDescription: document.getElementById('issueDescription').value.trim()
   };
 
-  if (!formData.customerName || !formData.customerEmail || !formData.customerPhone || !formData.deviceModel || !formData.issueDescription) {
-    showMessage('Please complete all required fields.', 'error');
+  if (formData.customerName.length < 2 || formData.deviceModel.length < 2 || formData.issueDescription.length < 10) {
+    showMessage('Name and device model must be at least 2 characters, and the issue description must be at least 10 characters.', 'error');
     return;
   }
   if (!/^\S+@\S+\.\S+$/.test(formData.customerEmail)) {
@@ -44,6 +50,8 @@ form.addEventListener('submit', async (e) => {
     const response = await fetch(`${API_URL}/repair-jobs`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData)
     });
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) throw new Error('The server returned an unexpected response.');
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Unable to create ticket.');
     showMessage(`Ticket submitted successfully. Your ticket number is #${data.jobId}.`, 'success');

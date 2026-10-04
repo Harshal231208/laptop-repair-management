@@ -68,15 +68,15 @@
       <form id="contactForm">
         <div class="field">
           <label for="contactName">Name</label>
-          <input type="text" id="contactName" required>
+          <input type="text" id="contactName" required minlength="2" maxlength="100">
         </div>
         <div class="field">
           <label for="contactEmail">Email</label>
-          <input type="email" id="contactEmail" required>
+          <input type="email" id="contactEmail" required maxlength="254">
         </div>
         <div class="field">
           <label for="contactMessage">Message</label>
-          <textarea id="contactMessage" rows="5" required></textarea>
+          <textarea id="contactMessage" rows="5" minlength="10" maxlength="1000" required></textarea>
         </div>
         <button type="submit" class="btn btn-copper btn-block">Send message</button>
         <p id="contactNote" style="margin-top: 12px; font-size: 0.85rem; color: var(--ink-soft);">
@@ -100,6 +100,7 @@
 <script>
   document.getElementById('contactForm').addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!validateForm(e.target)) { showToast('Please correct the highlighted fields.', 'error'); return; }
     showToast("Thanks — we'll get back to you soon.", 'success');
     e.target.reset();
   });
